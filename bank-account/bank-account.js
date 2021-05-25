@@ -1,40 +1,19 @@
-export class BankAccount {
-  Balance;
-  Open;
-  constructor() {
-    this.Balance = 0;
-    this.Open = false;
+export class Matrix {
+  constructor(matrix) {
+    this._rows = matrix.split('\n').map(row=>row.split(' ').map(num=>parseInt(num)));
   }
 
-  open() {
-    if(this.Open) throw new ValueError();
-    this.Open = true;
+  get rows() {
+    return this._rows;
   }
 
-  close() {
-    if(!this.Open) throw new ValueError();
-    this.Balance = 0;
-    this.Open = false;
-  }
-
-  deposit(amount) {
-    if(amount < 0 || !this.Open) throw new ValueError();
-    this.Balance += amount;
-  }
-
-  withdraw(amount) {
-    if(!this.Open || this.Balance < amount || amount < 0) throw new ValueError();
-    this.Balance -= amount;
-  }
-
-  get balance() {
-    if(!this.Open) throw new ValueError();
-    return this.Balance;
-  }
-}
-
-export class ValueError extends Error {
-  constructor() {
-    super('Bank account error');
+  get columns() {
+    let cols = [];
+    this._rows.map(row=> {
+      for (const [idx,value] of row.entries()) {
+        cols[idx] ? cols[idx].push(value) : cols[idx] = [value];
+      }
+    });
+    return cols;
   }
 }
